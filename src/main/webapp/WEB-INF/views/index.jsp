@@ -11,9 +11,18 @@
         <input type="text" class="nickname" name="nickname" />
         <button type="button" id="btn_search">SEARCH</button>
 
-        <h2 id="val_accessId"></h2>
-        <h2 id="val_nickname"></h2>
-        <h2 id="val_level"></h2>
+        <h2>
+            <span>ACCESS ID : </span>
+            <span id="val_accessId"></span>
+        </h2>
+        <h2>
+            <span>NICKNAME : </span>
+            <span id="val_nickname"></span>
+        </h2>
+        <h2>
+            <span>LEVEL : </span>
+            <span id="val_level"></span>
+        </h2>
     </center>
 </body>
 <script>
