@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>FO4.GG</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -32,7 +34,7 @@
             console.log('nickname : ', nickname);
             $.ajax({
                 type: 'GET',
-                url: '/fo4.gg/v1/api/user/' + nickname,
+                url: '${path}/v1/api/user/' + nickname,
                 dataType: 'json',
                 contentType: 'application/json;charset=UTF-8'
             }).done(function (res) {
