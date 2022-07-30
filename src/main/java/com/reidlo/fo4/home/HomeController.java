@@ -20,9 +20,14 @@ public class HomeController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/v1/api/user/{nickname}")
+    @GetMapping(value = "/v1/api/user/{nickname}", produces = "application/json;charset=UTF-8")
     public String get(@PathVariable String nickname) {
-        log.info("NICKNAME : " + nickname);
-        return homeService.requestUserInfo(nickname);
+        try {
+            log.info("NICKNAME : " + nickname);
+            return homeService.requestUserInfo(nickname);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
     }
 }
