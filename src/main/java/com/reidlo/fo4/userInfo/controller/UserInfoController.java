@@ -3,6 +3,7 @@ package com.reidlo.fo4.userInfo.controller;
 import com.reidlo.fo4.userInfo.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +17,15 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
 
     @GetMapping(value = "/{nickname}", produces = "application/json;charset=UTF-8")
-    public String get(@PathVariable String nickname) {
-        String result = null;
+    public ResponseEntity<?> getUserInfoByNickName(@PathVariable String nickname) {
+        ResponseEntity<?> ett = null;
         try {
-            result = userInfoService.requestUserInfo(nickname);
-            log.info("UserInfoController requestUserInfo result : " + result);
+            ett = userInfoService.requestUserInfoByNickName(nickname);
+            log.info("UserInfoController requestUserInfo ett : " + ett);
         } catch (Exception e) {
             e.printStackTrace();
             log.error("UserInfoController requestUserInfo error occurred : " + e.getMessage());
         }
-        return result;
+        return ett;
     }
 }
