@@ -1,51 +1,99 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Untree.co">
+    <title>FO4.GG</title>
+    <link rel="shortcut icon" href="${path}/resources/favicon.png">
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="${path}/resources/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="${path}/resources/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="${path}/resources/css/tiny-slider.css">
+    <link rel="stylesheet" href="${path}/resources/css/aos.css">
+    <link rel="stylesheet" href="${path}/resources/css/style.css">
 </head>
 <body>
-    <center>
-        <h1>FO4.GG</h1>
-        <input type="text" class="nickname" name="nickname" />
-        <button type="button" id="btn_search">SEARCH</button>
+<div class="hero">
+    <div class="hero-slide">
+        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_3.jpg')"></div>
+        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_2.jpg')"></div>
+        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_1.jpg')"></div>
+    </div>
 
-        <h2>
-            <span>ACCESS ID : </span>
-            <span id="val_accessId"></span>
-        </h2>
-        <h2>
-            <span>NICKNAME : </span>
-            <span id="val_nickname"></span>
-        </h2>
-        <h2>
-            <span>LEVEL : </span>
-            <span id="val_level"></span>
-        </h2>
-    </center>
-</body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center">
+                <h1 class="heading" data-aos="fade-up">FO4.GG</h1>
+                <h5 class="heading" data-aos="fade-up">Data based on NEXON DEVELOPERS</h5>
+                <form action="" class="narrow-w form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
+                    <input type="text" id="input_nickname" class="form-control px-4" placeholder="Input Your NickName">
+                    <button type="button" id="btn-search" class="btn btn-primary">Search</button>
+                </form>
+
+                <h2 class="heading" data-aos="fade-up">
+                    <span id="val_accessId"></span>
+                </h2>
+                <h2 class="heading" data-aos="fade-up">
+                    <span id="val_nickname"></span>
+                </h2>
+                <h2 class="heading" data-aos="fade-up">
+                    <span id="val_level"></span>
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
-        $('#btn_search').on('click', function () {
-            const nickname = $('.nickname').val();
+        $('#btn-search').on('click', function () {
+            const nickname = $('#input_nickname').val();
             console.log('nickname : ', nickname);
-            $.ajax({
-                type: 'GET',
-                url: '/fo4.gg/v1/api/user/' + nickname,
-                dataType: 'json',
-                contentType: 'application/json;charset=UTF-8'
-            }).done(function (res) {
-                console.log('find user info done response : ' + JSON.stringify(res));
-                const json = JSON.parse(JSON.stringify(res));
-                console.log('find user info don response json : ' + json.accessId);
-                $('#val_accessId').html(json.accessId);
-                $('#val_nickname').html(json.nickname);
-                $('#val_level').html(json.level);
-            }).fail(function (err) {
-                alert(JSON.stringify(err));
-            });
+            if(nickname === null || nickname === '') {
+                alert('닉네임을 입력해주세요!');
+            } else {
+                $.ajax({
+                    type: 'GET',
+                    url: '${path}/v1/api/user/' + nickname,
+                    dataType: 'json',
+                    contentType: 'application/json;charset=UTF-8'
+                }).done(function (response) {
+                    console.log('find user info done response : ' + JSON.stringify(response));
+                    console.log('find user info done response.data : ' + response.data);
+                    if(response.code === 0) {
+                        const json = JSON.parse(response.data);
+                        console.log('find user info done response json : ' + json.accessId);
+                        $('#val_accessId').html('AccessID : ' + json.accessId);
+                        $('#val_nickname').html('NickName :' + json.nickname);
+                        $('#val_level').html('Level :' + json.level);
+                    }
+                }).fail(function (err) {
+                    const error = JSON.parse(JSON.stringify(err));
+                    console.error('find user info error json : ' + JSON.stringify(error));
+                    alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
+                    $('#val_accessId').html('');
+                    $('#val_nickname').html('');
+                    $('#val_level').html('');
+                });
+            }
         });
     });
 </script>
+<script src="${path}/resources/js/bootstrap.bundle.min.js"></script>
+<script src="${path}/resources/js/tiny-slider.js"></script>
+<script src="${path}/resources/js/aos.js"></script>
+<script src="${path}/resources/js/navbar.js"></script>
+<script src="${path}/resources/js/counter.js"></script>
+<script src="${path}/resources/js/custom.js"></script>
+</body>
 </html>
