@@ -2,6 +2,7 @@ package com.reidlo.fo4.userInfo.service;
 
 import com.reidlo.fo4.main.response.model.CommonResult;
 import com.reidlo.fo4.main.response.model.SingleResult;
+import com.reidlo.fo4.main.response.service.ResponseLoggingService;
 import com.reidlo.fo4.main.response.service.ResponseService;
 import com.reidlo.fo4.main.utils.RestFactoryService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserInfoService {
     private final Logger log = Logger.getLogger(getClass());
+    private static final String className = UserInfoService.class.toString();
+
     private final RestFactoryService restFactoryService;
     private final ResponseService responseService;
+    private final ResponseLoggingService loggingService;
 
     @Transactional(readOnly = true)
     public ResponseEntity<?> requestUserInfoByNickName(String nickname) {
@@ -32,19 +36,18 @@ public class UserInfoService {
 
             if(result != null && !result.equals("")) {
                 SingleResult<String> singleResult = responseService.getSingleResult(result);
-                log.info("UserInfoSVC requestUserInfo singleResult : " + singleResult);
-
+                loggingService.singleResultLogging(className, "requestUserInfoByNickName", singleResult);
                 ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
-                log.info("UserInfoSVC requestUserInfo ett : " + ett);
             } else {
                 CommonResult failResult = responseService.getFailResult(-1, "회원정보가 존재하지 않습니다.");
-                log.info("UserInfoSVC requestUserInfo failResult : " + failResult);
+                loggingService.commonResultLogging(className, "requestUserInfoByNickName", failResult);
                 ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error("UserInfoSVC requestUserInfo error occurred : " + e.getMessage());
         }
+        log.info("UserInfoSVC requestUserInfo ett : " + ett);
         return ett;
     }
 }
