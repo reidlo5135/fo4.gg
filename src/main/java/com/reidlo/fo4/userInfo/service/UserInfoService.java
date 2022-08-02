@@ -33,20 +33,47 @@ public class UserInfoService {
             String result = restFactoryService.requestUserInfoByNickName(nickname);
             log.info("UserInfoSVC requestUserInfo result : " + result);
 
-            if(result != null && !result.equals("")) {
+            if(result == null) {
+                CommonResult failResult = responseService.getFailResult(-1, "구단주 정보가 존재하지 않습니다.");
+                loggingService.commonResultLogging(className, "requestUserInfoByNickName", failResult);
+                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
                 SingleResult<String> singleResult = responseService.getSingleResult(result);
                 loggingService.singleResultLogging(className, "requestUserInfoByNickName", singleResult);
                 ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
-            } else {
-                CommonResult failResult = responseService.getFailResult(-1, "회원정보가 존재하지 않습니다.");
-                loggingService.commonResultLogging(className, "requestUserInfoByNickName", failResult);
-                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("UserInfoSVC requestUserInfo error occurred : " + e.getMessage());
+            log.error("UserInfoSVC requestUserInfo Error Occurred : " + e.getMessage());
         } finally {
             log.info("UserInfoSVC requestUserInfo ett : " + ett);
+            return ett;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> requestUserMaxDivisionByAccessId(String accessId) {
+        ResponseEntity<?> ett = null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        try {
+            String result = restFactoryService.requestUserMaxDivisionByAccessId(accessId);
+            log.info("UserInfoSVC requestUserMaxDivisionByAccessId result : " + result);
+
+            if(result == null) {
+                CommonResult failResult = responseService.getFailResult(-1, "requestUserMaxDivisionByAccessId Error Occurred");
+                loggingService.commonResultLogging(className, "requestUserMaxDivisionByAccessId", failResult);
+                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                SingleResult<String> singleResult = responseService.getSingleResult(result);
+                loggingService.singleResultLogging(className, "requestUserMaxDivisionByAccessId", singleResult);
+                ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoSVC requestUserMaxDivisionByAccessId Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoSVC requestUserMaxDivisionByAccessId ett : " + ett);
             return ett;
         }
     }
