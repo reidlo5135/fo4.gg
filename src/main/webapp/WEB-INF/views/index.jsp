@@ -42,13 +42,16 @@
                 </form>
 
                 <h2 class="heading" data-aos="fade-up">
-                    <span id="val_accessId"></span>
-                </h2>
-                <h2 class="heading" data-aos="fade-up">
                     <span id="val_nickname"></span>
                 </h2>
                 <h2 class="heading" data-aos="fade-up">
                     <span id="val_level"></span>
+                </h2>
+                <h2 class="heading" data-aos="fade-up">
+                    <span id="val_division_1on1"></span>
+                </h2>
+                <h2 class="heading" data-aos="fade-up">
+                    <span id="val_division_coach"></span>
                 </h2>
             </div>
         </div>
@@ -64,7 +67,7 @@
             } else {
                 $.ajax({
                     type: 'GET',
-                    url: '${path}/v1/api/user/' + nickname,
+                    url: '${path}/v1/api/user/info/' + nickname,
                     dataType: 'json',
                     contentType: 'application/json;charset=UTF-8'
                 }).done(function (response) {
@@ -73,17 +76,40 @@
                     if(response.code === 0) {
                         const json = JSON.parse(response.data);
                         console.log('find user info done response json : ' + json.accessId);
-                        $('#val_accessId').html('AccessID : ' + json.accessId);
-                        $('#val_nickname').html('NickName :' + json.nickname);
-                        $('#val_level').html('Level :' + json.level);
+
+                        $.ajax({
+                           type: 'GET',
+                           url: '${path}/v1/api/user/division/' + json.accessId,
+                           dataType: 'json',
+                           contentType: 'application/json;charset=UTF-8'
+                        }).done(function (response) {
+                            console.log('find user division done response : ' + JSON.stringify(response));
+                            console.log('find user division done response.data : ' + response.data);
+
+                            if(response.code === 0) {
+                                const divisionJson = JSON.parse(response.data);
+                                console.log('find user divison done response json : ' + divisionJson);
+
+                                $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
+                                $('#val_level').html('구단주 레벨 : ' + json.level);
+                                $('#val_division_1on1').html('공식경기 최고 등급 : ' + divisionJson[0].division + '(' + divisionJson[0].achievementDate + ')');
+                                $('#val_division_coach').html('감독모드 최고 등급 : ' + divisionJson[1].division + '(' + divisionJson[1].achievementDate + ')');
+                            }
+                        }).fail(function (err) {
+                            const error = JSON.parse(JSON.stringify(err));
+                            console.error('find user info error json : ' + JSON.stringify(error));
+                            alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
+                            $('#val_division').html('');
+                        });
                     }
                 }).fail(function (err) {
                     const error = JSON.parse(JSON.stringify(err));
                     console.error('find user info error json : ' + JSON.stringify(error));
                     alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
-                    $('#val_accessId').html('');
                     $('#val_nickname').html('');
                     $('#val_level').html('');
+                    $('#val_division_1on1').html('');
+                    $('#val_division_coach').html('');
                 });
             }
         });
