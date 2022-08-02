@@ -38,3 +38,5 @@
 - <b>구단주 레벨</b>
 - <b>구단주 역대 최고 공식경기 레이팅</b>
 - <b>구단주 역대 최고 공식경기(감독 모드) 레이팅</b>
+
+<b>Data based on NEXON DEVELOPERS</b>
