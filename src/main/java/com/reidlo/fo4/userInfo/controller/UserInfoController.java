@@ -20,7 +20,7 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
     private final ResponseLoggingService loggingService;
 
-    @GetMapping(value = "/{nickname}", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/info/{nickname}", produces = "application/json;charset=UTF-8")
     public ResponseEntity<?> getUserInfoByNickName(@PathVariable String nickname) {
         ResponseEntity<?> ett = null;
         loggingService.httpPathStrLogging(className, "getUserInfoByNickName", nickname, "", "");
@@ -28,9 +28,24 @@ public class UserInfoController {
             ett = userInfoService.requestUserInfoByNickName(nickname);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("UserInfoController requestUserInfo error occurred : " + e.getMessage());
+            log.error("UserInfoController requestUserInfo Error Occurred : " + e.getMessage());
         } finally {
             log.info("UserInfoController requestUserInfo ett : " + ett);
+            return ett;
+        }
+    }
+
+    @GetMapping(value = "/division/{accessId}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> getUserMaxDivisionByAccessId(@PathVariable String accessId) {
+        ResponseEntity<?> ett = null;
+        loggingService.httpPathStrLogging(className, "getUserMaxDivisionByAccessId", accessId, "", "");
+        try {
+            ett = userInfoService.requestUserMaxDivisionByAccessId(accessId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoController getUserMaxDivisionByAccessId Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoController getUserMaxDivisionByAccessId ett : " + ett);
             return ett;
         }
     }
