@@ -27,12 +27,11 @@ public class UserInfoService {
     @Transactional(readOnly = true)
     public ResponseEntity<?> requestUserInfoByNickName(String nickname) {
         ResponseEntity<?> ett = null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         try {
             String result = restFactoryService.requestUserInfoByNickName(nickname);
             log.info("UserInfoSVC requestUserInfo result : " + result);
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
             if(result != null && !result.equals("")) {
                 SingleResult<String> singleResult = responseService.getSingleResult(result);
@@ -41,13 +40,14 @@ public class UserInfoService {
             } else {
                 CommonResult failResult = responseService.getFailResult(-1, "회원정보가 존재하지 않습니다.");
                 loggingService.commonResultLogging(className, "requestUserInfoByNickName", failResult);
-                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.BAD_REQUEST);
+                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
             e.printStackTrace();
             log.error("UserInfoSVC requestUserInfo error occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoSVC requestUserInfo ett : " + ett);
+            return ett;
         }
-        log.info("UserInfoSVC requestUserInfo ett : " + ett);
-        return ett;
     }
 }
