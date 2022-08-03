@@ -84,16 +84,36 @@
                            contentType: 'application/json;charset=UTF-8'
                         }).done(function (response) {
                             console.log('find user division done response : ' + JSON.stringify(response));
-                            console.log('find user division done response.data : ' + response.data);
+                            console.log('find user division done response.data : ' + JSON.stringify(response.data));
 
                             if(response.code === 0) {
-                                const divisionJson = JSON.parse(response.data);
+                                const divisionJson = JSON.parse(JSON.stringify(response.data));
                                 console.log('find user divison done response json : ' + divisionJson);
 
                                 $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
                                 $('#val_level').html('구단주 레벨 : ' + json.level);
-                                $('#val_division_1on1').html('공식경기 최고 등급 : ' + divisionJson[0].division + '(' + divisionJson[0].achievementDate + ')');
-                                $('#val_division_coach').html('감독모드 최고 등급 : ' + divisionJson[1].division + '(' + divisionJson[1].achievementDate + ')');
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision,
+                                    dataType: 'json',
+                                    contentType: 'application/json;charset=UTF-8'
+                                }).done(function (response) {
+                                    console.log('find divisionJSON done response : ' + JSON.stringify(response));
+                                    console.log('find divisionJSON done response.data : ' + JSON.stringify(response.data));
+
+                                    const rankJson = JSON.parse(JSON.stringify(response.data));
+                                    console.log('find divisionJSON done response rankJson : ' + rankJson);
+
+                                    if(response.code === 0) {
+                                        $('#val_division_1on1').html('공식경기 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
+                                        $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
+                                    }
+                                }).fail(function (err) {
+                                    const error = JSON.parse(JSON.stringify(err));
+                                    console.error('find user info error json : ' + JSON.stringify(error));
+                                    alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
+                                });
                             }
                         }).fail(function (err) {
                             const error = JSON.parse(JSON.stringify(err));
