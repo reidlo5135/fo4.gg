@@ -108,12 +108,16 @@ public class UserInfoService {
             Map<String, String> result = new HashMap<>();
 
             for(int i=0;i<resultJSON.size();i++) {
-                if(pvp == (int)resultJSON.get(i).get("divisionId")) {
+                if(pvp == 0) {
+                    result.put("pvpDivisionName", "기록이 존재하지 않습니다.");
+                } else if(pvp == (int)resultJSON.get(i).get("divisionId")) {
                     String pvpDivisionName = resultJSON.get(i).get("divisionName").toString();
                     log.info("UserInfoSVC requestDivisionJSON pvpDivisionName : " + pvpDivisionName);
                     result.put("pvpDivisionName", pvpDivisionName);
                 }
-                if(coach == (int)resultJSON.get(i).get("divisionId")) {
+                if(coach == 0) {
+                    result.put("coachDivisionName", "기록이 존재하지 않습니다.");
+                } else if(coach == (int)resultJSON.get(i).get("divisionId")) {
                     String coachDivisionName = resultJSON.get(i).get("divisionName").toString();
                     log.info("UserInfoSVC requestDivisionJSON coachDivisionName : " + coachDivisionName);
                     result.put("coachDivisionName", coachDivisionName);
