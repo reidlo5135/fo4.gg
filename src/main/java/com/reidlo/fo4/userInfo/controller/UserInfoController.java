@@ -49,4 +49,19 @@ public class UserInfoController {
             return ett;
         }
     }
+
+    @GetMapping(value = "/division/json/{pvp}/{coach}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> getDivisionJSON(@PathVariable int pvp, @PathVariable int coach) {
+        ResponseEntity<?> ett = null;
+        loggingService.httpPathStrLogging(className, "getDivisionJSON", String.valueOf(pvp), String.valueOf(coach), "");
+        try {
+            ett = userInfoService.requestDivisionJSON(pvp, coach);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoController getDivisionJSON Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoController getDivisionJSON ett : " + ett);
+            return ett;
+        }
+    }
 }
