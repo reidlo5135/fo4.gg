@@ -5,10 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Untree.co">
     <title>FO4.GG</title>
     <link rel="shortcut icon" href="${path}/resources/favicon.png">
-    <meta name="description" content="" />
+    <meta name="description" content="fo4.gg" />
     <meta name="keywords" content="bootstrap, bootstrap5" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,20 +24,14 @@
 </head>
 <body>
 <div class="hero">
-    <div class="hero-slide">
-        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_3.jpg')"></div>
-        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_2.jpg')"></div>
-        <div class="img overlay" style="background-image: url('${path}/resources/images/hero_bg_1.jpg')"></div>
-    </div>
-
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center">
                 <h1 class="heading" data-aos="fade-up">FO4.GG</h1>
                 <h5 class="heading" data-aos="fade-up">Data based on NEXON DEVELOPERS</h5>
                 <form action="" class="narrow-w form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">
-                    <input type="text" id="input_nickname" class="form-control px-4" placeholder="Input Your NickName">
-                    <button type="button" id="btn-search" class="btn btn-primary">Search</button>
+                    <input type="text" id="input_nickname" class="form-control px-4" placeholder="닉네임을 입력해주세요.">
+                    <button type="button" id="btn-search" class="btn btn-dark">Search</button>
                 </form>
 
                 <h2 class="heading" data-aos="fade-up">
@@ -90,9 +83,6 @@
                                 const divisionJson = JSON.parse(JSON.stringify(response.data));
                                 console.log('find user divison done response json : ' + divisionJson);
 
-                                $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
-                                $('#val_level').html('구단주 레벨 : ' + json.level);
-
                                 $.ajax({
                                     type: 'GET',
                                     url: '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision,
@@ -106,7 +96,9 @@
                                     console.log('find divisionJSON done response rankJson : ' + rankJson);
 
                                     if(response.code === 0) {
-                                        $('#val_division_1on1').html('공식경기 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
+                                        $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
+                                        $('#val_level').html('구단주 레벨 : ' + json.level);
+                                        $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
                                         $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
                                     }
                                 }).fail(function (err) {
@@ -119,7 +111,6 @@
                             const error = JSON.parse(JSON.stringify(err));
                             console.error('find user info error json : ' + JSON.stringify(error));
                             alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
-                            $('#val_division').html('');
                         });
                     }
                 }).fail(function (err) {
