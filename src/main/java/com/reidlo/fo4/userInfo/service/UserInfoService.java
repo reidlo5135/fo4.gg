@@ -14,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class UserInfoService {
@@ -57,15 +61,28 @@ public class UserInfoService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         try {
-            String result = restFactoryService.requestUserMaxDivisionByAccessId(accessId);
+            List<Map<String, Object>> resultJSON = restFactoryService.requestUserMaxDivisionByAccessId(accessId);
+            Map<String, String> result = new HashMap<>();
+
+            for(int i=0;i<resultJSON.size();i++) {
+                log.info("UserInfoSVC requestUserMaxDivisionByAccessId resultJSON.get : " + resultJSON.get(i));
+                if((int)resultJSON.get(i).get("matchType") == 50) {
+                    result.put("pvpDivision", resultJSON.get(i).get("division").toString());
+                    result.put("pvpDate", resultJSON.get(i).get("achievementDate").toString());
+                }
+                if((int)resultJSON.get(i).get("matchType") == 52) {
+                    result.put("coachDivision", resultJSON.get(i).get("division").toString());
+                    result.put("coachDate", resultJSON.get(i).get("achievementDate").toString());
+                }
+            }
             log.info("UserInfoSVC requestUserMaxDivisionByAccessId result : " + result);
 
-            if(result == null) {
+            if(result.isEmpty()) {
                 CommonResult failResult = responseService.getFailResult(-1, "requestUserMaxDivisionByAccessId Error Occurred");
                 loggingService.commonResultLogging(className, "requestUserMaxDivisionByAccessId", failResult);
                 ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
             } else {
-                SingleResult<String> singleResult = responseService.getSingleResult(result);
+                SingleResult<Map<String, String>> singleResult = responseService.getSingleResult(result);
                 loggingService.singleResultLogging(className, "requestUserMaxDivisionByAccessId", singleResult);
                 ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
             }
@@ -74,6 +91,50 @@ public class UserInfoService {
             log.error("UserInfoSVC requestUserMaxDivisionByAccessId Error Occurred : " + e.getMessage());
         } finally {
             log.info("UserInfoSVC requestUserMaxDivisionByAccessId ett : " + ett);
+            return ett;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> requestDivisionJSON(int pvp, int coach) {
+        ResponseEntity<?> ett = null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        log.info("UserInfoSVC requestDivisionJSON pvp : " + pvp);
+        log.info("UserInfoSVC requestDivisionJSON coach : " + coach);
+        try {
+            List<Map<String, Object>> resultJSON = restFactoryService.requestDivisionJSON();
+            Map<String, String> result = new HashMap<>();
+
+            for(int i=0;i<resultJSON.size();i++) {
+                if(pvp == (int)resultJSON.get(i).get("divisionId")) {
+                    String pvpDivisionName = resultJSON.get(i).get("divisionName").toString();
+                    log.info("UserInfoSVC requestDivisionJSON pvpDivisionName : " + pvpDivisionName);
+                    result.put("pvpDivisionName", pvpDivisionName);
+                }
+                if(coach == (int)resultJSON.get(i).get("divisionId")) {
+                    String coachDivisionName = resultJSON.get(i).get("divisionName").toString();
+                    log.info("UserInfoSVC requestDivisionJSON coachDivisionName : " + coachDivisionName);
+                    result.put("coachDivisionName", coachDivisionName);
+                }
+            }
+            log.info("UserInfoSVC requestDivisionJSON result : " + result);
+
+            if(result.isEmpty()) {
+                CommonResult failResult = responseService.getFailResult(-1, "requestDivisionJSON Error Occurred");
+                loggingService.commonResultLogging(className, "requestDivisionJSON", failResult);
+                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+            } else {
+                SingleResult<Map<String, String>> singleResult = responseService.getSingleResult(result);
+                loggingService.singleResultLogging(className, "requestDivisionJSON", singleResult);
+                ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoSVC requestDivisionJSON Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoSVC requestDivisionJSON ett : " + ett);
             return ett;
         }
     }
