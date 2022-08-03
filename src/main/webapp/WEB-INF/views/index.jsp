@@ -83,9 +83,20 @@
                                 const divisionJson = JSON.parse(JSON.stringify(response.data));
                                 console.log('find user divison done response json : ' + divisionJson);
 
+                                let divisionUrl = null;
+
+                                if(divisionJson.pvpDivision == undefined) {
+                                    divisionUrl = '${path}/v1/api/user/division/json/0' + '/' + divisionJson.coachDivision;
+                                } else if(divisionJson.coachDivision === undefined) {
+                                    divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/0';
+                                } else if(divisionJson.pvpDivision === undefined && divisionJson.coachDivision === undefined) {
+                                    divisionUrl = '${path}/v1/api/user/division/json/0/0';
+                                } else {
+                                    divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision;
+                                }
                                 $.ajax({
                                     type: 'GET',
-                                    url: '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision,
+                                    url: divisionUrl,
                                     dataType: 'json',
                                     contentType: 'application/json;charset=UTF-8'
                                 }).done(function (response) {
@@ -98,8 +109,16 @@
                                     if(response.code === 0) {
                                         $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
                                         $('#val_level').html('구단주 레벨 : ' + json.level);
-                                        $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
-                                        $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
+                                        if(rankJson.pvpDivisionName === "기록이 존재하지 않습니다.") {
+                                            $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName);
+                                        } else {
+                                            $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
+                                        }
+                                        if(rankJson.coachDivisionName === "기록이 존재하지 않습니다.") {
+                                            $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName);
+                                        } else {
+                                            $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
+                                        }
                                     }
                                 }).fail(function (err) {
                                     const error = JSON.parse(JSON.stringify(err));
