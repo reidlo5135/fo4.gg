@@ -85,12 +85,12 @@
 
                                 let divisionUrl = null;
 
-                                if(divisionJson.pvpDivision === undefined) {
+                                if(divisionJson.pvpDivision === null && divisionJson.coachDivision === null) {
+                                    divisionUrl = '${path}/v1/api/user/division/json/0/0';
+                                } else if(divisionJson.pvpDivision === undefined) {
                                     divisionUrl = '${path}/v1/api/user/division/json/0' + '/' + divisionJson.coachDivision;
                                 } else if(divisionJson.coachDivision === undefined) {
                                     divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/0';
-                                } else if(divisionJson.pvpDivision === null && divisionJson.coachDivision === null) {
-                                    divisionUrl = '${path}/v1/api/user/division/json/0/0';
                                 } else {
                                     divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision;
                                 }
@@ -146,11 +146,11 @@
         });
     });
 </script>
+</body>
 <script src="${path}/resources/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/js/tiny-slider.js"></script>
 <script src="${path}/resources/js/aos.js"></script>
 <script src="${path}/resources/js/navbar.js"></script>
 <script src="${path}/resources/js/counter.js"></script>
 <script src="${path}/resources/js/custom.js"></script>
-</body>
 </html>
