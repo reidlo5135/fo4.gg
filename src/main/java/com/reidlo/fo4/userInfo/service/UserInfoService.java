@@ -66,17 +66,27 @@ public class UserInfoService {
 
             for(int i=0;i<resultJSON.size();i++) {
                 log.info("UserInfoSVC requestUserMaxDivisionByAccessId resultJSON.get : " + resultJSON.get(i));
-                if((int)resultJSON.get(i).get("matchType") == 50) {
+
+                int matchType = (int)resultJSON.get(i).get("matchType");
+                log.info("UserInfoSVC requestUserMaxDivisionByAccessId resultJSON matchType : " + matchType);
+
+                if(matchType == 50) {
                     result.put("pvpDivision", resultJSON.get(i).get("division").toString());
                     result.put("pvpDate", resultJSON.get(i).get("achievementDate").toString());
                 }
-                if((int)resultJSON.get(i).get("matchType") == 52) {
+                if(matchType == 52) {
                     result.put("coachDivision", resultJSON.get(i).get("division").toString());
                     result.put("coachDate", resultJSON.get(i).get("achievementDate").toString());
                 }
+                if(matchType != 50 && matchType != 52) {
+                    result.put("pvpDivision", null);
+                    result.put("pvpDate", null);
+                    result.put("coachDivision", null);
+                    result.put("coachDate", null);
+                }
             }
 
-            if(resultJSON.size() == 0) {
+            if(result.size() == 0) {
                 result.put("pvpDivision", null);
                 result.put("pvpDate", null);
                 result.put("coachDivision", null);
