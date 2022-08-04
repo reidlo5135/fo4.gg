@@ -85,15 +85,16 @@
 
                                 let divisionUrl = null;
 
-                                if(divisionJson.pvpDivision == undefined) {
+                                if(divisionJson.pvpDivision === undefined) {
                                     divisionUrl = '${path}/v1/api/user/division/json/0' + '/' + divisionJson.coachDivision;
                                 } else if(divisionJson.coachDivision === undefined) {
                                     divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/0';
-                                } else if(divisionJson.pvpDivision === undefined && divisionJson.coachDivision === undefined) {
+                                } else if(divisionJson.pvpDivision === null && divisionJson.coachDivision === null) {
                                     divisionUrl = '${path}/v1/api/user/division/json/0/0';
                                 } else {
                                     divisionUrl = '${path}/v1/api/user/division/json/' + divisionJson.pvpDivision + '/' + divisionJson.coachDivision;
                                 }
+                                console.log('find user division done response divisionUrl : ' + divisionUrl);
                                 $.ajax({
                                     type: 'GET',
                                     url: divisionUrl,

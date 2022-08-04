@@ -75,6 +75,14 @@ public class UserInfoService {
                     result.put("coachDate", resultJSON.get(i).get("achievementDate").toString());
                 }
             }
+
+            if(resultJSON.size() == 0) {
+                result.put("pvpDivision", null);
+                result.put("pvpDate", null);
+                result.put("coachDivision", null);
+                result.put("coachDate", null);
+            }
+
             log.info("UserInfoSVC requestUserMaxDivisionByAccessId result : " + result);
 
             if(result.isEmpty()) {
