@@ -4,4 +4,4 @@ build
 gradle
 out
 src/main/webapp/resources/**
-src/main/java/com/reidlo/fo4/main/utils/RestFactoryService.java
+src/main/java/com/reidlo/fo4/main/utils/RestFactory.java
