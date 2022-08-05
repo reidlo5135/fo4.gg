@@ -120,6 +120,17 @@
                                         } else {
                                             $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
                                         }
+
+                                        const pvpUrl = '${path}/details/pvp/' + json.nickname + '/' + json.level + '/' + rankJson.pvpDivisionName + '/' + divisionJson.pvpDate;
+                                        const coachUrl = '${path}/details/coach/' + json.nickname + '/' + json.level + '/' + rankJson.coachDivisionName + '/' + divisionJson.pvpDate;
+
+                                        $('#val_division_1on1').on('click', function () {
+                                           location.href = pvpUrl;
+                                        });
+
+                                        $('#val_division_coach').on('click', function () {
+                                            location.href = coachUrl;
+                                        });
                                     }
                                 }).fail(function (err) {
                                     const error = JSON.parse(JSON.stringify(err));
