@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.reidlo.fo4.userInfo.mapper.UserInfoMapper">
+    <resultMap id="userInfoMap" type="com.reidlo.fo4.userInfo.model.User">
+        <id property="id" column="id" />
+        <result property="nickname" column="nickname" />
+        <result property="level" column="level" />
+        <result property="pvpDivisionName" column="pvpDivisionName" />
+        <result property="coachDivisionName" column="coachDivisionName" />
+        <result property="pvpAchievementDate" column="pvpAchievementDate" />
+        <result property="coachAchievementDate" column="coachAchievementDate" />
+    </resultMap>
+    
+    <select id="findAll" resultMap="userInfoMap">
+        SELECT * FROM USER;
+    </select>
+</mapper>
