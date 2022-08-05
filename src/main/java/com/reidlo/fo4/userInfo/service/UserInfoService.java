@@ -70,13 +70,18 @@ public class UserInfoService {
                 int matchType = (int)resultJSON.get(i).get("matchType");
                 log.info("UserInfoSVC requestUserMaxDivisionByAccessId resultJSON matchType : " + matchType);
 
+                String division = resultJSON.get(i).get("division").toString();
+                String achievementDate = resultJSON.get(i).get("achievementDate").toString().split("T")[0];
+                log.info("UserInfoSVC requestUserMaxDivisionByAccessId division : " + division);
+                log.info("UserInfoSVC requestUserMaxDivisionByAccessId achievementDate : " + achievementDate);
+
                 if(matchType == 50) {
-                    result.put("pvpDivision", resultJSON.get(i).get("division").toString());
-                    result.put("pvpDate", resultJSON.get(i).get("achievementDate").toString());
+                    result.put("pvpDivision", division);
+                    result.put("pvpDate", achievementDate);
                 }
                 if(matchType == 52) {
-                    result.put("coachDivision", resultJSON.get(i).get("division").toString());
-                    result.put("coachDate", resultJSON.get(i).get("achievementDate").toString());
+                    result.put("coachDivision", division);
+                    result.put("coachDate", achievementDate);
                 }
                 if(matchType != 50 && matchType != 52) {
                     result.put("pvpDivision", null);
