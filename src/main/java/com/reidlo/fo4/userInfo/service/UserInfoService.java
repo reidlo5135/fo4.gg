@@ -75,19 +75,21 @@ public class UserInfoService {
                 log.info("UserInfoSVC requestUserMaxDivisionByAccessId division : " + division);
                 log.info("UserInfoSVC requestUserMaxDivisionByAccessId achievementDate : " + achievementDate);
 
-                if(matchType == 50) {
-                    result.put("pvpDivision", division);
-                    result.put("pvpDate", achievementDate);
-                }
-                if(matchType == 52) {
-                    result.put("coachDivision", division);
-                    result.put("coachDate", achievementDate);
-                }
-                if(matchType != 50 && matchType != 52) {
-                    result.put("pvpDivision", null);
-                    result.put("pvpDate", null);
-                    result.put("coachDivision", null);
-                    result.put("coachDate", null);
+                switch (matchType){
+                    case 50:
+                        result.put("pvpDivision", division);
+                        result.put("pvpDate", achievementDate);
+                        break;
+                    case 52:
+                        result.put("coachDivision", division);
+                        result.put("coachDate", achievementDate);
+                        break;
+                    default:
+                        result.put("pvpDivision", null);
+                        result.put("pvpDate", null);
+                        result.put("coachDivision", null);
+                        result.put("coachDate", null);
+                        break;
                 }
             }
 
