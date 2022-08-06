@@ -1,14 +1,12 @@
 package com.reidlo.fo4.userInfo.controller;
 
 import com.reidlo.fo4.main.response.service.ResponseLoggingService;
+import com.reidlo.fo4.userInfo.model.User;
 import com.reidlo.fo4.userInfo.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +59,21 @@ public class UserInfoController {
             log.error("UserInfoController getDivisionJSON Error Occurred : " + e.getMessage());
         } finally {
             log.info("UserInfoController getDivisionJSON ett : " + ett);
+            return ett;
+        }
+    }
+
+    @PostMapping(value = "/register/userInfo", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<?> registerUserInfo(@RequestBody User user) {
+        ResponseEntity<?> ett = null;
+        log.info("UserInfoController registerUserInfo user : " + user);
+        try {
+            ett = userInfoService.registerUserInfo(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoController registerUserInfo Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoController registerUserInfo ett : " + ett);
             return ett;
         }
     }
