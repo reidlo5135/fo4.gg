@@ -212,6 +212,7 @@ public class UserInfoService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<User> findUserListByNickName(String nickname) {
         log.info("UserInfoSVC findUserListByNickName nickname : " + nickname);
         List<User> userList = new ArrayList<>();
