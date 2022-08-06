@@ -17,4 +17,13 @@
     <select id="findAll" resultMap="userInfoMap">
         SELECT * FROM USER;
     </select>
+
+    <select id="findByNickName" resultMap="userInfoMap" parameterType="String">
+        SELECT * FROM USER WHERE nickname = #{nickname}
+    </select>
+
+    <insert id="register">
+        INSERT INTO USER(nickname, level, pvpDivisionName, coachDivisionName, pvpAchievementDate, coachAchievementDate)
+        VALUES(#{nickname}, #{level}, #{pvpDivisionName}, #{coachDivisionName}, #{pvpAchievementDate}, #{coachAchievementDate})
+    </insert>
 </mapper>

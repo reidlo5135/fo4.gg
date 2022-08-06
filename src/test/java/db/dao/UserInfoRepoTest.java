@@ -1,7 +1,7 @@
 package db.dao;
 
 import com.reidlo.fo4.userInfo.model.User;
-import com.reidlo.fo4.userInfo.model.UserDAO;
+import com.reidlo.fo4.userInfo.model.UserInfoRepository;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,15 +13,15 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/applicationContext.xml"})
-public class UserInfoDAOTest {
+public class UserInfoRepoTest {
     private final Logger log = Logger.getLogger(getClass());
 
     @Autowired
-    private UserDAO userDAO;
+    private UserInfoRepository userInfoRepository;
 
     @Test
     public void findAllTest() {
-        List<User> list = userDAO.findAll();
+        List<User> list = userInfoRepository.findAll();
         log.info("UserInfoDAOTest findAll list : " + list);
     }
 }
