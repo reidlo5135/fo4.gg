@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -20,7 +21,7 @@ public class UserInfoRepoTest {
     private UserInfoRepository userInfoRepository;
 
     @Test
-    public void findAllTest() {
+    public void findAllTest() throws SQLException {
         List<User> list = userInfoRepository.findAll();
         log.info("UserInfoDAOTest findAll list : " + list);
     }
