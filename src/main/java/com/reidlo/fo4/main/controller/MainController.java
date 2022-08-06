@@ -1,13 +1,22 @@
 package com.reidlo.fo4.main.controller;
 
+import com.reidlo.fo4.userInfo.model.User;
+import com.reidlo.fo4.userInfo.service.UserInfoService;
+import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
     private final Logger log = Logger.getLogger(getClass());
+
+    private final UserInfoService userInfoService;
 
     @GetMapping(value = "/")
     public String home() {
@@ -15,17 +24,29 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping(value = "/details/pvp/{nickname}/{level}/{pvpName}/{pvpDate}")
-    public String pvpDetails(@PathVariable String nickname, @PathVariable String level, @PathVariable String pvpName, @PathVariable String pvpDate) {
-        log.info("move to pvpDetails");
-        log.info("Details pvpPath : " + nickname + ", " + level + ", " + pvpName + ", " + pvpDate);
-        return "/match/pvpDetails";
+    @GetMapping(value = "/details/pvp/{nickname}")
+    public ModelAndView pvpDetails(ModelAndView modelAndView, @PathVariable String nickname) {
+        log.info("MainController details pvp nickname : " + nickname);
+
+        List<User> userList = userInfoService.findUserListByNickName(nickname);
+        log.info("MainController details pvp userList : " + userList);
+
+        modelAndView.addObject("userList", userList);
+        modelAndView.setViewName("/match/pvpDetails");
+
+        return modelAndView;
     }
 
-    @GetMapping(value = "/details/coach/{nickname}/{level}/{coachName}/{coachDate}")
-    public String coachDetails(@PathVariable String nickname, @PathVariable String level, @PathVariable String coachName, @PathVariable String coachDate) {
-        log.info("move to coachDetails");
-        log.info("Details coachPath : " + nickname + ", " + level + ", " + coachName + ", " + coachDate);
-        return "/match/coachDetails";
+    @GetMapping(value = "/details/coach/{nickname}")
+    public ModelAndView coachDetails(ModelAndView modelAndView, @PathVariable String nickname) {
+        log.info("MainController details coach nickname : " + nickname);
+
+        List<User> userList = userInfoService.findUserListByNickName(nickname);
+        log.info("MainController details coach userList : " + userList);
+
+        modelAndView.addObject("userList", userList);
+        modelAndView.setViewName("/match/coachDetails");
+
+        return modelAndView;
     }
 }

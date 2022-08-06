@@ -121,8 +121,31 @@
                                             $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
                                         }
 
-                                        const pvpUrl = '${path}/details/pvp/' + json.nickname + '/' + json.level + '/' + rankJson.pvpDivisionName + '/' + divisionJson.pvpDate;
-                                        const coachUrl = '${path}/details/coach/' + json.nickname + '/' + json.level + '/' + rankJson.coachDivisionName + '/' + divisionJson.pvpDate;
+                                        const userInfoJson = {
+                                            'nickname': json.nickname,
+                                            'level': json.level,
+                                            'pvpDivisionName': rankJson.pvpDivisionName,
+                                            'pvpAchievementDate': divisionJson.pvpDate,
+                                            'coachDivisionName': rankJson.coachDivisionName,
+                                            'coachAchievementDate': divisionJson.coachDate
+                                        }
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '${path}/v1/api/user/register/userInfo',
+                                            dataType: 'json',
+                                            data: JSON.stringify(userInfoJson),
+                                            contentType: 'application/json;charset=UTF-8'
+                                        }).done(function (response) {
+                                            console.log('register userInfo done response : ' + JSON.stringify(response));
+                                            console.log('register userInfo done response.data : ' + JSON.stringify(response.data));
+                                        }).fail(function (err) {
+                                            const error = JSON.parse(JSON.stringify(err));
+                                            console.error('register userInfo error json : ' + JSON.stringify(error));
+                                        });
+
+                                        const pvpUrl = '${path}/details/pvp/' + json.nickname;
+                                        const coachUrl = '${path}/details/coach/' + json.nickname;
 
                                         $('#val_division_1on1').on('click', function () {
                                            location.href = pvpUrl;

@@ -5,6 +5,8 @@ import com.reidlo.fo4.main.response.model.SingleResult;
 import com.reidlo.fo4.main.response.service.ResponseLoggingService;
 import com.reidlo.fo4.main.response.service.ResponseService;
 import com.reidlo.fo4.main.utils.RestFactoryService;
+import com.reidlo.fo4.userInfo.model.User;
+import com.reidlo.fo4.userInfo.model.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ public class UserInfoService {
     private final Logger log = Logger.getLogger(getClass());
     private static final String className = UserInfoService.class.toString();
 
+    private final UserInfoRepository userInfoRepository;
     private final RestFactoryService restFactoryService;
     private final ResponseService responseService;
     private final ResponseLoggingService loggingService;
@@ -165,6 +169,60 @@ public class UserInfoService {
         } finally {
             log.info("UserInfoSVC requestDivisionJSON ett : " + ett);
             return ett;
+        }
+    }
+
+    @Transactional
+    public ResponseEntity<?> registerUserInfo(User user) {
+        ResponseEntity<?> ett = null;
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        log.info("UserInfoSVC registerUserInfo user : " + user);
+
+        try {
+            List<User> userList = userInfoRepository.findByNickName(user.getNickname());
+            log.info("UserInfoSVC registerUserInfo userList : " + userList);
+            log.info("UserInfoSVC registerUserInfo userList.size : " + userList.size());
+
+            if(userList.isEmpty()) {
+                int result = userInfoRepository.register(user);
+                log.info("UserInfoSVC registerUserInfo result : " + result);
+
+                if(result != 1) {
+                    CommonResult failResult = responseService.getFailResult(-1, "registerUserInfo Error Occurred");
+                    loggingService.commonResultLogging(className, "registerUserInfo", failResult);
+                    ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+                } else {
+                    SingleResult<Integer> singleResult = responseService.getSingleResult(result);
+                    loggingService.singleResultLogging(className, "registerUserInfo", singleResult);
+                    ett = new ResponseEntity<>(singleResult, httpHeaders, HttpStatus.OK);
+                }
+            } else {
+                CommonResult failResult = responseService.getFailResult(-1, "registerUserInfo UserInfo is Already Exists");
+                loggingService.commonResultLogging(className, "registerUserInfo", failResult);
+                ett = new ResponseEntity<>(failResult, httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoSVC registerUserInfo Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoSVC registerUserInfo ett : " + ett);
+            return ett;
+        }
+    }
+
+    public List<User> findUserListByNickName(String nickname) {
+        log.info("UserInfoSVC findUserListByNickName nickname : " + nickname);
+        List<User> userList = new ArrayList<>();
+        try {
+            userList = userInfoRepository.findByNickName(nickname);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("UserInfoSVC findUserListByNickName Error Occurred : " + e.getMessage());
+        } finally {
+            log.info("UserInfoSVC findUserListByNickName userList : " + userList);
+            return userList;
         }
     }
 }
