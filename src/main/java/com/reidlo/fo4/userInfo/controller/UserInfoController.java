@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserInfoController {
     private final Logger log = Logger.getLogger(getClass());
     private static final String className = UserInfoController.class.toString();
-
     private final UserInfoService userInfoService;
     private final ResponseLoggingService loggingService;
 
