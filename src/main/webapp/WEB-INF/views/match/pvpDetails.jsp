@@ -3,6 +3,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <html>
 <head>
+    <link rel="shortcut icon" href="${path}/resources/favicon.png">
 </head>
 <body>
 <c:import url="../commonLink.jsp" />
@@ -13,6 +14,7 @@
                 <h1 id="h1_title" class="heading" data-aos="fade-up">FO4.GG</h1>
                 <h5 class="heading" data-aos="fade-up">Data based on NEXON DEVELOPERS</h5>
                 <h1 class="heading" data-aos="fade-up">공식 경기(1on1) 정보 </h1>
+                <img class="heading" src="${userList.get(0).pvpImageUrl}" alt="pvpDivision-img" data-aos="fade-up" />
                 <h1 class="heading" data-aos="fade-up">구단주 이름 : ${userList.get(0).nickname}</h1>
                 <h1 class="heading" data-aos="fade-up">구단주 레벨 : ${userList.get(0).level}</h1>
                 <h1 class="heading" data-aos="fade-up">최고 등급 :  ${userList.get(0).pvpDivisionName}</h1>
