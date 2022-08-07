@@ -17,4 +17,6 @@ public class User {
     private String coachDivisionName;
     private Date pvpAchievementDate;
     private Date coachAchievementDate;
+    private String pvpImageUrl;
+    private String coachImageUrl;
 }
