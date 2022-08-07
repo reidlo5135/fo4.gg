@@ -3,6 +3,7 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <html>
 <head>
+    <link rel="shortcut icon" href="${path}/resources/favicon.png">
 </head>
 <body>
 <c:import url="commonLink.jsp" />
