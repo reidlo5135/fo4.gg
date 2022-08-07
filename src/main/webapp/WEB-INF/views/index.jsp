@@ -3,26 +3,9 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FO4.GG</title>
-    <link rel="shortcut icon" href="${path}/resources/favicon.png">
-    <meta name="description" content="fo4.gg" />
-    <meta name="keywords" content="bootstrap, bootstrap5" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="${path}/resources/fonts/icomoon/style.css">
-    <link rel="stylesheet" href="${path}/resources/fonts/flaticon/font/flaticon.css">
-
-    <link rel="stylesheet" href="${path}/resources/css/tiny-slider.css">
-    <link rel="stylesheet" href="${path}/resources/css/aos.css">
-    <link rel="stylesheet" href="${path}/resources/css/style.css">
 </head>
 <body>
+<c:import url="commonLink.jsp" />
 <div class="hero">
     <div class="container">
         <div class="row justify-content-center align-items-center">
@@ -33,24 +16,11 @@
                     <input type="text" id="input_nickname" class="form-control px-4" placeholder="닉네임을 입력해주세요.">
                     <button type="button" id="btn-search" class="btn btn-dark">Search</button>
                 </form>
-
-                <h2 class="heading" data-aos="fade-up">
-                    <span id="val_nickname"></span>
-                </h2>
-                <h2 class="heading" data-aos="fade-up">
-                    <span id="val_level"></span>
-                </h2>
-                <h2 class="heading" data-aos="fade-up">
-                    <span id="val_division_1on1"></span>
-                </h2>
-                <h2 class="heading" data-aos="fade-up">
-                    <span id="val_division_coach"></span>
-                </h2>
             </div>
         </div>
     </div>
 </div>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         $('#btn-search').on('click', function () {
             const nickname = $('#input_nickname').val();
@@ -108,19 +78,6 @@
                                     console.log('find divisionJSON done response rankJson : ' + rankJson);
 
                                     if(response.code === 0) {
-                                        $('#val_nickname').html('구단주 닉네임 : ' + json.nickname);
-                                        $('#val_level').html('구단주 레벨 : ' + json.level);
-                                        if(rankJson.pvpDivisionName === "기록이 존재하지 않습니다.") {
-                                            $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName);
-                                        } else {
-                                            $('#val_division_1on1').html('1on1 최고 등급 : ' + rankJson.pvpDivisionName + '(' + divisionJson.pvpDate + ')');
-                                        }
-                                        if(rankJson.coachDivisionName === "기록이 존재하지 않습니다.") {
-                                            $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName);
-                                        } else {
-                                            $('#val_division_coach').html('감독모드 최고 등급 : ' + rankJson.coachDivisionName + '(' + divisionJson.coachDate + ')');
-                                        }
-
                                         const userInfoJson = {
                                             'nickname': json.nickname,
                                             'level': json.level,
@@ -145,15 +102,7 @@
                                         });
 
                                         const pvpUrl = '${path}/details/pvp/' + json.nickname;
-                                        const coachUrl = '${path}/details/coach/' + json.nickname;
-
-                                        $('#val_division_1on1').on('click', function () {
-                                           location.href = pvpUrl;
-                                        });
-
-                                        $('#val_division_coach').on('click', function () {
-                                            location.href = coachUrl;
-                                        });
+                                        location.replace(pvpUrl);
                                     }
                                 }).fail(function (err) {
                                     const error = JSON.parse(JSON.stringify(err));
@@ -171,20 +120,10 @@
                     const error = JSON.parse(JSON.stringify(err));
                     console.error('find user info error json : ' + JSON.stringify(error));
                     alert('ERROR STATUS : ' + error.status + '\nERROR CODE : ' + error.responseJSON.code + '\nERROR MSG : ' + error.responseJSON.msg);
-                    $('#val_nickname').html('');
-                    $('#val_level').html('');
-                    $('#val_division_1on1').html('');
-                    $('#val_division_coach').html('');
                 });
             }
         });
     });
 </script>
 </body>
-<script src="${path}/resources/js/bootstrap.bundle.min.js"></script>
-<script src="${path}/resources/js/tiny-slider.js"></script>
-<script src="${path}/resources/js/aos.js"></script>
-<script src="${path}/resources/js/navbar.js"></script>
-<script src="${path}/resources/js/counter.js"></script>
-<script src="${path}/resources/js/custom.js"></script>
 </html>
