@@ -26,7 +26,6 @@ import java.util.Map;
 public class UserInfoService {
     private final Logger log = Logger.getLogger(getClass());
     private static final String className = UserInfoService.class.toString();
-
     private final UserInfoRepository userInfoRepository;
     private final RestFactoryService restFactoryService;
     private final ResponseService responseService;
@@ -184,6 +183,13 @@ public class UserInfoService {
             List<User> userList = userInfoRepository.findByNickName(user.getNickname());
             log.info("UserInfoSVC registerUserInfo userList : " + userList);
             log.info("UserInfoSVC registerUserInfo userList.size : " + userList.size());
+
+            String pvpImageUrl = restFactoryService.setDivisionImageUrl(user.getPvpDivisionName());
+            log.info("UserInfoSVC registerUserInfo pvpImageUrl : " + pvpImageUrl);
+            String coachImageUrl = restFactoryService.setDivisionImageUrl(user.getCoachDivisionName());
+            log.info("UserInfoSVC registerUserInfo coachImageUrl : " + coachImageUrl);
+            user.setPvpImageUrl(pvpImageUrl);
+            user.setCoachImageUrl(coachImageUrl);
 
             if(userList.isEmpty()) {
                 int result = userInfoRepository.register(user);
