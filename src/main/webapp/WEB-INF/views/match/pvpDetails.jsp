@@ -31,7 +31,7 @@
         });
 
         if('${userList.get(0).pvpDivisionName}' === '기록이 존재하지 않습니다.') {
-            $('#h1_divisionName').html('공식 경기 기록이 존재하지 않습니다.');
+            $('#h1_divisionName').html('경기 기록이 존재하지 않습니다.');
             $('#h1_divisionDate').html('');
         }
 
