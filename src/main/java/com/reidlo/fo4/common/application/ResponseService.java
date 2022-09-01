@@ -1,9 +1,9 @@
-package com.reidlo.fo4.main.response.service;
+package com.reidlo.fo4.common.application;
 
-import com.reidlo.fo4.main.response.model.CommonResponse;
-import com.reidlo.fo4.main.response.model.CommonResult;
-import com.reidlo.fo4.main.response.model.ListResult;
-import com.reidlo.fo4.main.response.model.SingleResult;
+import com.reidlo.fo4.common.domain.CommonResponse;
+import com.reidlo.fo4.common.domain.CommonResult;
+import com.reidlo.fo4.common.domain.ListResult;
+import com.reidlo.fo4.common.domain.SingleResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
