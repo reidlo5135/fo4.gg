@@ -1,6 +1,6 @@
-package com.reidlo.fo4.userInfo.mapper;
+package com.reidlo.fo4.user.mapper;
 
-import com.reidlo.fo4.userInfo.model.User;
+import com.reidlo.fo4.user.domain.User;
 
 import java.util.List;
 

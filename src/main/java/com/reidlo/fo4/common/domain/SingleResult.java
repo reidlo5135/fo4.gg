@@ -1,4 +1,4 @@
-package com.reidlo.fo4.main.response.model;
+package com.reidlo.fo4.common.domain;
 
 import lombok.Getter;
 import lombok.Setter;

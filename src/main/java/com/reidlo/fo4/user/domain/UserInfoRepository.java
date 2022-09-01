@@ -1,6 +1,6 @@
-package com.reidlo.fo4.userInfo.model;
+package com.reidlo.fo4.user.domain;
 
-import com.reidlo.fo4.userInfo.mapper.UserInfoMapper;
+import com.reidlo.fo4.user.mapper.UserInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;

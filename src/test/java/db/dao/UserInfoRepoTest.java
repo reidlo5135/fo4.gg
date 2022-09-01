@@ -1,7 +1,7 @@
 package db.dao;
 
-import com.reidlo.fo4.userInfo.model.User;
-import com.reidlo.fo4.userInfo.model.UserInfoRepository;
+import com.reidlo.fo4.user.domain.User;
+import com.reidlo.fo4.user.domain.UserInfoRepository;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;

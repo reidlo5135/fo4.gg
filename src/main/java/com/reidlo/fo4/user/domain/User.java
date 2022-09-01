@@ -1,4 +1,4 @@
-package com.reidlo.fo4.userInfo.model;
+package com.reidlo.fo4.user.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

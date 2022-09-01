@@ -1,5 +1,6 @@
-package com.reidlo.fo4.main.utils;
+package com.reidlo.fo4.common.application;
 
+import com.reidlo.fo4.common.infra.RestFactory;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
