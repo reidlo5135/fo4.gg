@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias type="com.reidlo.fo4.userInfo.model.User" alias="UserInfo" />
+        <typeAlias type="com.reidlo.fo4.user.domain.User" alias="UserInfo" />
     </typeAliases>
 </configuration>
