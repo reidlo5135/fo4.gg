@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,21 +90,34 @@ public class UserInfoService {
     }
 
     @Transactional
-    public SingleResult<Integer> registerUserInfo(User user) throws SQLException {
-        List<User> userList = userInfoRepository.findByNickName(user.getNickname());
+    public SingleResult<Integer> registerUserInfo(User user) {
+        try {
+            List<User> userList = userInfoRepository.findByNickName(user.getNickname());
 
-        user.setPvpImageUrl(restFactoryService.setDivisionImageUrl(user.getPvpDivisionName()));
-        user.setCoachImageUrl(restFactoryService.setDivisionImageUrl(user.getCoachDivisionName()));
+            user.setPvpImageUrl(restFactoryService.setDivisionImageUrl(user.getPvpDivisionName()));
+            user.setCoachImageUrl(restFactoryService.setDivisionImageUrl(user.getCoachDivisionName()));
 
-        if(userList.isEmpty()) {
-            return responseService.getSingleResult(userInfoRepository.register(user));
+            int result = 0;
+            if(userList.isEmpty()) {
+                result =  userInfoRepository.register(user);
+            }
+
+            return responseService.getSingleResult(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return null;
     }
 
     @Transactional(readOnly = true)
-    public List<User> findUserListByNickName(String nickname) throws SQLException {
-        return userInfoRepository.findByNickName(nickname);
+    public List<User> findUserListByNickName(String nickname) {
+        List<User> userList = new ArrayList<>();
+        try {
+            userList = userInfoRepository.findByNickName(nickname);
+            return userList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
     }
 }
