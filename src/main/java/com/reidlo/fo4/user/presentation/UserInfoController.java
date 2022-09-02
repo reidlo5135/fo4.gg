@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/v1/api/user")
@@ -31,7 +29,7 @@ public class UserInfoController {
     }
 
     @PostMapping(value = "/register/userInfo", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> registerUserInfo(@RequestBody User user) throws SQLException {
+    public ResponseEntity<?> registerUserInfo(@RequestBody User user) {
         return ResponseEntity.ok().body(userInfoService.registerUserInfo(user));
     }
 }
