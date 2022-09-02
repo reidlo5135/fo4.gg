@@ -1,7 +1,7 @@
 package com.reidlo.fo4.common.presentation;
 
-import com.reidlo.fo4.user.domain.User;
 import com.reidlo.fo4.user.application.UserInfoService;
+import com.reidlo.fo4.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -26,7 +25,7 @@ public class FrontController {
     }
 
     @GetMapping(value = "/details/pvp/{nickname}")
-    public ModelAndView pvpDetails(ModelAndView modelAndView, @PathVariable String nickname) throws SQLException {
+    public ModelAndView pvpDetails(ModelAndView modelAndView, @PathVariable String nickname) {
         log.info("MainController details pvp nickname : " + nickname);
 
         List<User> userList = userInfoService.findUserListByNickName(nickname);
@@ -39,7 +38,7 @@ public class FrontController {
     }
 
     @GetMapping(value = "/details/coach/{nickname}")
-    public ModelAndView coachDetails(ModelAndView modelAndView, @PathVariable String nickname) throws SQLException {
+    public ModelAndView coachDetails(ModelAndView modelAndView, @PathVariable String nickname) {
         log.info("MainController details coach nickname : " + nickname);
 
         List<User> userList = userInfoService.findUserListByNickName(nickname);
