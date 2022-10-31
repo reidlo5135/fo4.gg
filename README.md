@@ -23,7 +23,7 @@
 <img src="https://img.shields.io/badge/Intellij IDEA-000000?style=for-the-badge&logo=IntelliJ Idea&logoColor=white"></span>
 
 - Frontend - JSP, JavaScript, jQuery, AJAX
-- Backend - Spring, REST API, Swagger, JAVA(11)
+- Backend - Spring, REST API, Swagger
 - Database - MySQL
 - WAS - Apache Tomcat
 - Version Control - Git, GitHub
