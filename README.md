@@ -22,9 +22,9 @@
 <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
 <img src="https://img.shields.io/badge/Intellij IDEA-000000?style=for-the-badge&logo=IntelliJ Idea&logoColor=white"></span>
 
-- Frontend - JSP, JavaScript, jQuery, AJAX
-- Backend - Spring, REST API, Swagger
-- Database - MySQL
+- Frontend - JSP, JavaScript, jQuery
+- Backend - Spring, Swagger 3.0
+- Database - MySQL 8.0
 - WAS - Apache Tomcat
 - Version Control - Git, GitHub
 - IDE - IntelliJ IDEA Ultimate
