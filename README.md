@@ -3,7 +3,7 @@
 <b>VERSION: 1.0.0</b><br>
 
 ## **FO4.GG?**
-<b>FO4.GG</b>란 Nexon Developers에서 제공하는 fifaonline4 API를 이용하여 사용자의 검색을 통하여 fifaonline4 사용자 정보를 제공해주는 사이트입니다. <br><br>
+<b>FO4.GG</b>란 Nexon Developers에서 제공하는 fifaonline4 API를 이용하여 사용자의 검색을 통하여 구단주(사용자) 정보를 제공해주는 사이트입니다. <br><br>
 
 ## <b>사용기술</b>
 <span><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white">
